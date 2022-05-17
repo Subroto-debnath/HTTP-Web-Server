@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>test</title>
+</head>
+
+<body>
+    <form id="formSubroto" method = "POST"> 
+      <label>First Name: </label>
+        <input type="text" name="firstname" value="Subroto">
+        <label>Last Name: </label>
+        <input type="text" name="lastname" value="Kamrun">
+        <label>Age: </label>
+        <input type="text" name="age" value="10">
+        <input type="submit">
+    </form>
+    <div id="decoded"></div>
+</body>
+<script>
+    formSubroto.onsubmit = async (e) => {
+      e.preventDefault();
+      var form = document.querySelector("#formSubroto");
+
+        data = {
+          firstname : form.querySelector('input[name="firstname"]').value,
+          lastname : form.querySelector('input[name="lastname"]').value,
+          age : form.querySelector('input[name="age"]').value
+        }
+
+        let response = await fetch('http://localhost:8080/decode', { //response from server
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data), //turn javascript object as JSON string
+        })
+
+        let text = await response.text(); //read response body as text
+        console.log(text)
+        document.querySelector("#decoded").innerHTML = text;
+    };
+</script>
+</html>
